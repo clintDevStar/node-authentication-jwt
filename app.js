@@ -27,6 +27,9 @@ if(config.util.getEnv('NODE_ENV') !== 'test') {
   app.use(logger('combined')); //'combined' outputs the Apache style LOGs
 }
 
+const router = express.Router()
+usersRouter(router)
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,7 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
