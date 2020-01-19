@@ -1,13 +1,31 @@
 var createError = require('http-errors');
 var express = require('express');
+var mongoose = require('mongoose');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var config = require('config')  //we load the db location from the JSON files
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+//db options
+let options = { 
+  useUnifiedTopology: true,
+  useNewUrlParser: true  
+}; 
+
+//db connection      
+mongoose.connect(config.DBHost, options);
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+
+//don't show the log when it is test
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+  //use morgan to log at command line
+  app.use(logger('combined')); //'combined' outputs the Apache style LOGs
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
