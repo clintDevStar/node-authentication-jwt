@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const SALT_ROUNDS = 10;
 
 // schema maps to collection
 const Schema = mongoose.Schema;
 
-let hashPass = (value) => {
-  return bcrypt.hashSync(value)
+// function for hashing password
+const hashPwd = value => {
+  return bcrypt.hashSync(value, SALT_ROUNDS)
 }
 
 const userSchema = new Schema({
@@ -19,11 +21,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    set: hashPass
+    set: hashPwd
   }
 });
 
-// encrypt password before save
 
 
 module.exports = mongoose.model("User", userSchema);
