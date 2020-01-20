@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
@@ -37,13 +37,15 @@ module.exports = {
         let userpwd = user.password;
         bcrypt.compare(password, userpwd, (err, match) => {
           if (match) {
-            const payload = { user: user.name }
-            const options = { expiresIn: '2d', issuer: 'clint maruti'}
-            const secret = process.env.JWT_SECRET
-            const token = jwt.sign(payload, secret, options)
+            const payload = { user: user.name };
+            const options = { expiresIn: "2d", issuer: "clint maruti" };
+            const secret = process.env.JWT_SECRET;
+            const token = jwt.sign(payload, secret, options);
             // console.log(token)
-            return res.status(200).json({message: 'Login Successful!', token})
-          };
+            return res
+              .status(200)
+              .json({ message: "Login Successful!", token });
+          }
           return res
             .status(403)
             .json({ message: "Logged In Failed!", error: err });
@@ -52,5 +54,20 @@ module.exports = {
       .catch(error => {
         res.status(500).json({ error });
       });
+  },
+  getAll: (req, res) => {
+    const payload = req.decoded;
+
+    if (payload && payload.user === "admin") {
+      User.find({}, (err, users) => {
+        if (!err) {
+          res.status(200).send(users);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+    } else {
+      res.status(500).send("Authentication Error!");
+    }
   }
 };
