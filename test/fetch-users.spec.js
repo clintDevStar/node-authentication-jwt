@@ -16,7 +16,7 @@ let adminUser = {
   password: "admin@123"
 };
 
-let token = '';
+let token = "";
 
 // parent block
 describe("Login", () => {
@@ -29,17 +29,13 @@ describe("Login", () => {
       .end((err, res) => {
         res.should.have.status(200);
       });
-    done();
-  });
-
-  beforeEach(done => {
     chai
       .request(app)
       .post("/login")
       .send(adminUser)
       .end((err, res) => {
         res.should.have.status(200);
-        token =  res.body.token;
+        token = res.body.token;
       });
     done();
   });
@@ -54,7 +50,7 @@ describe("Login", () => {
     chai
       .request(app)
       .get("/users")
-      .set({Authorization: 'Bearer ' + token})
+      .set({ Authorization: "Bearer " + token })
       .end((err, res) => {
         res.should.have.status(500);
         res.body.should.be.a("object");
