@@ -16,7 +16,7 @@ let adminUser = {
   password: "admin@123"
 };
 
-let token;
+let token = '';
 
 // parent block
 describe("Login", () => {
