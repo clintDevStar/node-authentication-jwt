@@ -10,16 +10,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-//db options
-let options = { 
-  useUnifiedTopology: true,
-  useNewUrlParser: true  
-}; 
-
-//db connection      
-mongoose.connect(config.DBHost, options);
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+require('./db');
 
 //don't show the log when it is test
 if(config.util.getEnv('NODE_ENV') !== 'test') {

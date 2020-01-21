@@ -7,9 +7,13 @@ module.exports = {
   add: (req, res) => {
     const { name, password } = req.body;
 
-    if (!name || !password) {
-      return res.status(400).json({ message: "Name and Password required!" });
-    }
+    if (!name || !password)
+      return res.status(400).json({ error: "Name and Password required!" });
+
+    if (name === " " || password === " ")
+      return res
+        .status(404)
+        .json({ error: "Name or Password field must not be an empty space!" });
 
     const user = new User({ name, password }); // document = instance of a model
 
