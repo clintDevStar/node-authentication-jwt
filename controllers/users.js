@@ -52,7 +52,7 @@ module.exports = {
           }
           return res
             .status(403)
-            .json({ message: "Logged In Failed!", error: err });
+            .json({ message: "Login Failed!"});
         });
       })
       .catch(error => {
