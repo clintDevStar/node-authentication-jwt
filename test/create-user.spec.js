@@ -26,7 +26,7 @@ describe("User", () => {
     it("should create user", done => {
       let user = {
         name: "Fin",
-        password: "tecnocrat"
+        password: "Eastood0009"
       };
       chai
         .request(app)
@@ -84,15 +84,15 @@ describe("User", () => {
         .post("/users")
         .send(user)
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(422);
           res.body.should.be.a("object");
           res.body.should.have
             .property("error")
-            .eql("Name or Password field must not be an empty space!");
+            .eql("Name field can not be empty space!");
           done();
         });
     });
-    it("should not create user with an empty password field", done => {
+    it("should not create user with empty space on password", done => {
       let user = {
         name: "fally",
         password: " "
@@ -102,11 +102,11 @@ describe("User", () => {
         .post("/users")
         .send(user)
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(422);
           res.body.should.be.a("object");
           res.body.should.have
             .property("error")
-            .eql("Name or Password field must not be an empty space!");
+            .eql("Invalid Password!");
           done();
         });
     });

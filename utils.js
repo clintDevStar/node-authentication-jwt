@@ -18,15 +18,15 @@ module.exports = {
         // We call next to pass execution to the subsequent middleware
         next();
       } catch (err) {
-          // Throw an error just in case anything goes wrong with verification
-          throw new Error(err)
+        // Throw an error just in case anything goes wrong with verification
+        throw new Error(err);
       }
     } else {
-        result = {
-            error: 'Authentication error. Token required.',
-            status: 401
-        }
-        res.status(401).send(result)
+      result = {
+        error: "Authentication error. Token required.",
+        status: 401
+      };
+      res.status(401).send(result);
     }
   }
 };

@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 let defaultUser = {
   name: "admin",
-  password: "admin@123"
+  password: "Eastood0009"
 };
 
 // parent block

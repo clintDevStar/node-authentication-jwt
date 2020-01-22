@@ -1,6 +1,7 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const passwordValidator = require("../pwdSchema");
 const User = require("../models/users");
 
 module.exports = {
@@ -10,10 +11,17 @@ module.exports = {
     if (!name || !password)
       return res.status(400).json({ error: "Name and Password required!" });
 
-    if (name === " " || password === " ")
+    if (name === " ")
       return res
-        .status(404)
-        .json({ error: "Name or Password field must not be an empty space!" });
+        .status(422)
+        .json({ error: "Name field can not be empty space!" });
+
+    if (!passwordValidator.validate(password))
+      return res.status(422).json({
+        error: "Invalid Password!",
+        message:
+          "Password must by of minimum length 8 and maximum of 100 characters respectively. Must contain both Uppercase and Lowercase. Must contain digits. Must not contain any spaces"
+      });
 
     const user = new User({ name, password }); // document = instance of a model
 
@@ -50,9 +58,7 @@ module.exports = {
               .status(200)
               .json({ message: "Login Successful!", token });
           }
-          return res
-            .status(403)
-            .json({ message: "Login Failed!"});
+          return res.status(403).json({ message: "Login Failed!" });
         });
       })
       .catch(error => {
