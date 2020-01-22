@@ -21,10 +21,6 @@ if(config.util.getEnv('NODE_ENV') !== 'test') {
 const router = express.Router()
 usersRouter(router)
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
