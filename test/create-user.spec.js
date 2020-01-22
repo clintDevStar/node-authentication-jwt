@@ -110,5 +110,65 @@ describe("User", () => {
           done();
         });
     });
+    it("should not create user with password less than 8 characters", done => {
+      let user = {
+        name: "tomFlinch",
+        password: "Easting"
+      }
+      chai
+        .request(app)
+        .post("/users")
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(422)
+          res.body.should.have.property("error").eql("Invalid Password!")
+          done()
+        })
+    })
+    it("should not create user with password more than 100 characters", done => {
+      let user = {
+        name: "vivaMiguna",
+        password: "mongolia".repeat(100)
+      }
+      chai 
+        .request(app)
+        .post("/users")
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(422)
+          res.body.should.have.property("error").eql("Invalid Password!")
+          done()
+        })
+    })
+    it("should not create user with password without an Uppercase letter", done => {
+      let user = {
+        name: "miguel",
+        password: "eastood0009"
+      }
+      chai
+        .request(app)
+        .post("/users")
+        .send(user)
+        .end((err,res) => {
+          res.should.have.status(422)
+          res.body.should.have.property("error").eql("Invalid Password!")
+          done()
+        })
+    })
+    it("should not create user with password without a Lowercase letter", done => {
+      let user = {
+        name: "lola93",
+        password: "EASTOOD0009"
+      }
+      chai
+        .request(app)
+        .post("/users")
+        .send(user)
+        .end((err,res) => {
+          res.should.have.status(422)
+          res.body.should.have.property("error").eql("Invalid Password!")
+          done()
+        })
+    })
   });
 });
